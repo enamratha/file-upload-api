@@ -48,7 +48,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/upload", upload.single("profileImage"), async (req, res) => {
-  console.log("hi");
   const fileDetails = req.file;
   const { filename } = fileDetails;
   const { name, socialMediaHandle } = req.body;
@@ -69,6 +68,9 @@ app.get("/uploads/:name", async (req, res) => {
 });
 
 app.get("/uploads", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
+  res.setHeader("Access-Control-Allow-Headers", "*");
   const allUploadsQuery = `
         SELECT * 
         FROM uploads;
