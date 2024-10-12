@@ -48,23 +48,17 @@ app.get("/", (req, res) => {
 });
 
 app.post("/upload", upload.single("profileImage"), async (req, res) => {
-  req.setRequestHeader("Content-Type", "multipart/form-data");
-  req.setRequestHeader("Access-Control-Allow-Origin", "*");
-  req.setRequestHeader(
-    "Access-Control-Allow-Methods",
-    "DELETE, POST, GET, OPTIONS"
-  );
-  req.setRequestHeader("Access-Control-Allow-Headers", "*, Accept");
   const fileDetails = req.file;
   const { filename } = fileDetails;
   const { name, socialMediaHandle } = req.body;
+  //   console.log(fileDetails, req.body);
   const postUploading = `
       INSERT INTO
       uploads( name, username, image)
       VALUES
       ('${name}', '${socialMediaHandle}', '${filename}');`;
   await database.run(postUploading);
-  return res.redirect("/");
+  return res.send("uploaded");
 });
 
 app.get("/uploads/:name", async (req, res) => {
